@@ -16,10 +16,11 @@ namespace StudentManager.Services
             _db = db;
         }
 
-        public async Task AddAsync(Teacher teacher)
+        public async Task<bool> AddAsync(Teacher teacher)
         {
             await _db.AddAsync(teacher);
             await _db.SaveChangesAsync();
+            return true;
         }
 
         public IEnumerable<Teacher> GetAll()
@@ -40,22 +41,26 @@ namespace StudentManager.Services
         }
 
 
-        public async Task UpdateAsync(Teacher teacher)
+        public async Task<bool> UpdateAsync(Teacher teacher)
         {
             _db.Update(teacher);
             await _db.SaveChangesAsync();
+            return true;
         }
 
-        void IRepository<Teacher>.Add(Teacher teacher)
+        public bool Add(Teacher teacher)
         {
             _db.AddAsync(teacher);
             _db.SaveChanges();
+            return true;
         }
 
-        void IRepository<Teacher>.Update(Teacher teacher)
+        public bool Update(Teacher teacher)
         {
             _db.Update(teacher);
             _db.SaveChanges();
+
+            return true;
         }
     }
 }

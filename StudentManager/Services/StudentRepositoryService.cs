@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace StudentManager.Services
 {
@@ -17,15 +18,33 @@ namespace StudentManager.Services
             _db = db;
         }
 
-        public async Task AddAsync(Student student)
+        public async Task<bool> AddAsync(Student student)
         {
-            await _db.AddAsync(student);
-            await _db.SaveChangesAsync();
+           
+
+            bool exists = _db.Students.Any(s =>
+                                                s.Name == student.Name &&
+                                                s.LastName == student.LastName &&
+                                                s.Middlename == student.Middlename);
+
+            if (exists)
+            {
+
+                MessageBox.Show("Данный пользователь уже существует в базе данных");
+                return false;
+
+            }
+            else
+            {
+                await _db.AddAsync(student);
+                await _db.SaveChangesAsync();
+                return true;
+            }
         }
 
         public  IEnumerable<Student> GetAll()
         {
-            return _db.Set<Student>();
+            return _db.Set<Student>().Include(s => s.Departament).Include(s => s.Teachers);
         }
 
         public void Remove(Student student)
@@ -41,22 +60,75 @@ namespace StudentManager.Services
         }
 
 
-        public async Task UpdateAsync(Student student)
+        public async Task<bool> UpdateAsync(Student student)
         {
-            _db.Update(student);
-            await _db.SaveChangesAsync();
+            bool exists = _db.Students.Any(s =>
+                                                s.Name == student.Name &&
+                                                s.LastName == student.LastName &&
+                                                s.Middlename == student.Middlename);
+
+            if (exists)
+            {
+
+                MessageBox.Show("Данный пользователь уже существует в базе данных");
+                await Task.Delay(300);
+                return false;
+
+            }
+            else
+            {
+                _db.Update(student);
+                await _db.SaveChangesAsync();
+                return true;
+            }
+
+            
         }
 
-        void IRepository<Student>.Add(Student student)
+        public bool Add(Student student)
         {
-            _db.AddAsync(student);
-            _db.SaveChanges();
+            bool exists = _db.Students.Any(s =>
+                                                s.Name == student.Name &&
+                                                s.LastName == student.LastName &&
+                                                s.Middlename == student.Middlename);
+
+            if (exists)
+            {
+                
+                MessageBox.Show("Данный пользователь уже существует в базе данных");
+                return false;
+                
+            }
+            else
+            {
+                _db.AddAsync(student);
+                _db.SaveChanges();
+                return true;
+            }
+            
         }
 
-        void IRepository<Student>.Update(Student student)
+        public bool Update(Student student)
         {
-            _db.Update(student);
-            _db.SaveChanges();
+            bool exists = _db.Students.Any(s =>
+                                                s.Name == student.Name &&
+                                                s.LastName == student.LastName &&
+                                                s.Middlename == student.Middlename);
+
+            if (exists)
+            {
+
+                MessageBox.Show("Данный пользователь уже существует в базе данных");
+                return false;
+
+            }
+            else
+            {
+                _db.Update(student);
+                _db.SaveChanges();
+                return true;
+            }
+            
         }
     }
 }

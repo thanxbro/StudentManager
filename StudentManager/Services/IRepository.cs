@@ -9,13 +9,13 @@ namespace StudentManager.Services
 {
     public interface IRepository<T>
     {
-        Task AddAsync(T student);
+        Task<bool> AddAsync(T student);
         Task RemoveAsync(T student);
-        Task UpdateAsync(T student);
+        Task<bool> UpdateAsync(T student);
 
-        void Add(T student);
+        bool Add(T student);
         void Remove(T student);
-        void Update(T student);
+        bool Update(T student);
 
         IEnumerable<T> GetAll();
     }

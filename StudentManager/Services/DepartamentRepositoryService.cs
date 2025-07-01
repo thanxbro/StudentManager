@@ -16,10 +16,11 @@ namespace StudentManager.Services
             _db = db;
         }
 
-        public async Task AddAsync(Departament departament)
+        public async Task<bool> AddAsync(Departament departament)
         {
             await _db.AddAsync(departament);
             await _db.SaveChangesAsync();
+            return true;
         }
 
         public IEnumerable<Departament> GetAll()
@@ -40,22 +41,25 @@ namespace StudentManager.Services
         }
 
 
-        public async Task UpdateAsync(Departament departament)
+        public async Task<bool> UpdateAsync(Departament departament)
         {
             _db.Update(departament);
             await _db.SaveChangesAsync();
+            return true;
         }
 
-        void IRepository<Departament>.Add(Departament departament)
+        public bool Add(Departament departament)
         {
             _db.AddAsync(departament);
             _db.SaveChanges();
+            return true;
         }
 
-        void IRepository<Departament>.Update(Departament departament)
+        public bool Update(Departament departament)
         {
             _db.Update(departament);
             _db.SaveChanges();
+            return true;
         }
     }
 }
