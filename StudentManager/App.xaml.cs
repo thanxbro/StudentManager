@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using StudentManager.DataBase;
 using StudentManager.View;
+using StudentManager.ViewModel;
 using System;
 using System.Windows;
 
@@ -19,6 +20,9 @@ namespace StudentManager
         {
             //Добавляем сервисы в контейнер
             HostApplicationBuilder builder = Host.CreateApplicationBuilder();
+
+            builder.Services.AddSingleton<MainWindowViewModel>();
+
             builder.Services.AddSingleton<MainWindow>();
             builder.Services.AddDbContext<DataBaseContext>();
 

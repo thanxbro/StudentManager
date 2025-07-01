@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using StudentManager.ViewModel;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -16,8 +17,11 @@ namespace StudentManager.View
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        private MainWindowViewModel _vm;
+        public MainWindow(MainWindowViewModel vm)
         {
+            _vm = vm;
+            DataContext = vm;
             InitializeComponent();
         }
     }
