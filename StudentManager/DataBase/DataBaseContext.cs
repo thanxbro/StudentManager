@@ -16,7 +16,18 @@ namespace StudentManager.DataBase
         {
             var folder = Environment.CurrentDirectory;
             DbPath = System.IO.Path.Join(folder, "database.db");
-            Database.EnsureCreated();
+
+            if(Database.EnsureCreated())
+            {
+                Teachers.Add(new Teacher { Name = "Сафронов Леонид Яковлевич" });
+                Teachers.Add(new Teacher { Name = "Потемина Анна Анатольевна" });
+                Teachers.Add(new Teacher { Name = "Григорьев Вячеслав Александрович" });
+
+                Departaments.Add(new Departament { Name = "Вычислительные машины и комплексы" });
+                Departaments.Add(new Departament { Name = "Химическая и нефтихимическая промышленность" });
+                SaveChanges();
+            }
+            
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
