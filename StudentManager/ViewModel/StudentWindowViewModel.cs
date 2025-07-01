@@ -97,6 +97,7 @@ namespace StudentManager.ViewModel
             }
 
             Departaments = new ObservableCollection<Departament>(_departamentRepository.GetAll());
+            SelectedDepartament = Departaments.First();
             Teachers = new ObservableCollection<Teacher>(_teacherRepository.GetAll());
 
             AddCommand = new RelayCommand(AddStudent);
@@ -105,6 +106,7 @@ namespace StudentManager.ViewModel
 
         private void AddStudent()
         {
+            if (!Validation()) return;
             var newStudent = new Student
             {
                 Name = Name,
@@ -124,8 +126,25 @@ namespace StudentManager.ViewModel
             
         }
 
+        private bool Validation()
+        {
+            if (string.IsNullOrWhiteSpace(Name))
+            {
+                MessageBox.Show("Поле Имя не может быть пустым!");
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(LastName))
+            {
+                MessageBox.Show("Поле Фамилия не может быть пустым!");
+                return false;
+            }
+
+            return true;
+        }
+
         private void UpdateStudent()
         {
+            if (!Validation()) return;
 
             _updateStudent.Name = Name;
             _updateStudent.LastName = LastName;
