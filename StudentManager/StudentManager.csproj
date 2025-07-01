@@ -23,7 +23,6 @@
   <ItemGroup>
     <Folder Include="Model\" />
     <Folder Include="ViewModel\" />
-    <Folder Include="DataBase\" />
     <Folder Include="Services\" />
   </ItemGroup>
 
