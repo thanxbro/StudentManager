@@ -10,6 +10,7 @@
         Title="{Binding Title}" Height="450" Width="800">
     <Window.Resources>
         <utils:TeachersListConverter x:Key="TeacherConverter" />
+        <utils:EnumToRussianConverter x:Key="EnumToRussianConverter" />
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -25,7 +26,7 @@
                 <DataGridTextColumn Header="Имя" Binding="{Binding Name}" />
                 <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}" />
                 <DataGridTextColumn Header="Отчество" Binding="{Binding Middlename}" />
-                <DataGridTextColumn Header="Пол" Binding="{Binding Gender}" />
+                <DataGridTextColumn Header="Пол" Binding="{Binding Gender, Converter={StaticResource EnumToRussianConverter}}" />
                 <DataGridTextColumn Header="Кафедра" Binding="{Binding Departament.Name}" />
                 <DataGridTextColumn Header="Преподаватели" 
                  Binding="{Binding Teachers, Converter={StaticResource TeacherConverter}}"
