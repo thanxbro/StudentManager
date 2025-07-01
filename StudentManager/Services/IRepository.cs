@@ -9,14 +9,14 @@ namespace StudentManager.Services
 {
     public interface IRepository<T>
     {
-        Task AddStudentAsync(T student);
-        Task RemoveStudenAsync(T student);
-        Task UpdateStudentAsync(T student);
+        Task AddAsync(T student);
+        Task RemoveAsync(T student);
+        Task UpdateAsync(T student);
 
-        void AddStudent(T student);
-        void RemoveStuden(T student);
-        void UpdateStudent(T student);
+        void Add(T student);
+        void Remove(T student);
+        void Update(T student);
 
-        IEnumerable<T> GetAllStudents();
+        IEnumerable<T> GetAll();
     }
 }
