@@ -9,34 +9,54 @@ using System.Threading.Tasks;
 
 namespace StudentManager.Services
 {
-    public class StudentRepositoryService : IRepository
+    public class StudentRepositoryService : IRepository<Student>
     {
         private DataBaseContext _db;
         public StudentRepositoryService(DataBaseContext db) 
         {
             _db = db;
         }
-        public async Task AddStudent(Student student)
+
+        public async Task AddStudentAsync(Student student)
         {
             await _db.AddAsync(student);
             await _db.SaveChangesAsync();
         }
 
-        public async Task<List<Student>> GetAllStudents()
+        public  IEnumerable<Student> GetAllStudents()
         {
-            return await _db.Set<Student>().ToListAsync();
+            return _db.Set<Student>();
         }
 
-        public async Task RemoveStudent(Student student)
+        public void RemoveStuden(Student student)
+        {
+            _db.Remove(student);
+            _db.SaveChanges();
+        }
+
+        public async Task RemoveStudenAsync(Student student)
         {
             _db.Remove(student);
             await _db.SaveChangesAsync();
         }
 
-        public async Task UpdateStudent(Student student)
+
+        public async Task UpdateStudentAsync(Student student)
         {
             _db.Update(student);
             await _db.SaveChangesAsync();
+        }
+
+        void IRepository<Student>.AddStudent(Student student)
+        {
+            _db.AddAsync(student);
+            _db.SaveChanges();
+        }
+
+        void IRepository<Student>.UpdateStudent(Student student)
+        {
+            _db.Update(student);
+            _db.SaveChanges();
         }
     }
 }

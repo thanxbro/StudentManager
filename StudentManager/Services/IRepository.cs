@@ -7,12 +7,16 @@ using System.Threading.Tasks;
 
 namespace StudentManager.Services
 {
-    public interface IRepository
+    public interface IRepository<T>
     {
-        Task AddStudent(Student student);
-        Task RemoveStudent(Student student);
-        Task<List<Student>> GetAllStudents();
+        Task AddStudentAsync(T student);
+        Task RemoveStudenAsync(T student);
+        Task UpdateStudentAsync(T student);
 
-        Task UpdateStudent(Student student);
+        void AddStudent(T student);
+        void RemoveStuden(T student);
+        void UpdateStudent(T student);
+
+        IEnumerable<T> GetAllStudents();
     }
 }
