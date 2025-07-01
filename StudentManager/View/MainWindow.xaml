@@ -7,6 +7,29 @@
         mc:Ignorable="d"
         Title="{Binding Title}" Height="450" Width="800">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <DataGrid ItemsSource="{Binding Students}">
 
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Имя" Binding="{Binding Name}" Width="*" />
+                    <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}" Width="*" />
+                    <DataGridTextColumn Header="Отчество" Binding="{Binding Middlename}" Width="*" />
+                    <DataGridTextColumn Header="Пол" Binding="{Binding Gender}" Width="Auto" />
+                    <DataGridTextColumn Header="Кафедра" Binding="{Binding Departament.Name}" Width="*" />
+                </DataGrid.Columns>
+            </DataGrid>
+            
+        </Grid>
+        <Grid Grid.Row="1">
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 10">
+                <Button Content="Добавить" Command="{Binding AddCommand}" Margin="5" Width="100" />
+                <Button Content="Изменить" Command="{Binding EditCommand}" Margin="5" Width="100" />
+                <Button Content="Удалить" Command="{Binding DeleteCommand}" Margin="5" Width="100" />
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>
