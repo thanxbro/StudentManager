@@ -51,6 +51,7 @@ namespace StudentManager
         protected override void OnExit(ExitEventArgs e)
         {
             base.OnExit(e);
+            _host.StopAsync();
             _host.Dispose();
         }
     }
