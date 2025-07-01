@@ -21,23 +21,23 @@
     <Grid>
         
         <StackPanel Margin="10" VerticalAlignment="Top">
-            <TextBox Margin="0 5" Text="Имя" />
-            <TextBox Margin="0 5" Text="{Binding Name}" />
-            <TextBox Margin="0 5"  Text="Фамилия" />
-            <TextBox Margin="0 5"  Text="{Binding LastName}" />
-            <TextBox Margin="0 5" Text="Отчество" />
-            <TextBox Margin="0 5" Text="{Binding Middlename}" />
-            <TextBox Margin="0 5" Text="Пол" />
+            <TextBlock Margin="0 5" Text="Имя" />
+            <TextBox Margin="0 5" Text="{Binding Name}" MaxLength="40" />
+            <TextBlock Margin="0 5"  Text="Фамилия" />
+            <TextBox Margin="0 5"  Text="{Binding LastName}" MaxLength="40" />
+            <TextBlock Margin="0 5" Text="Отчество" />
+            <TextBox Margin="0 5" Text="{Binding Middlename}" MaxLength="60" />
+            <TextBlock Margin="0 5" Text="Пол" />
 
             <ComboBox Margin="0 5" SelectedItem="{Binding SelectedGender}"  ItemsSource="{Binding Source={StaticResource dataFromEnum}}" />
 
-            <TextBox Margin="0 5" Text="Кафедра" />
+            <TextBlock Margin="0 5" Text="Кафедра" />
             <ComboBox Margin="0 5"
               ItemsSource="{Binding Departaments}"
               DisplayMemberPath="Name"
               SelectedItem="{Binding SelectedDepartament}" />
 
-            <TextBox Margin="0 5" Text="Преподаватели" />
+            <TextBlock Margin="0 5" Text="Преподаватели" />
             <ListBox x:Name="TeachersListBox" Margin="0 5"
                  Height="100"
                  ItemsSource="{Binding Teachers}"

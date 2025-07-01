@@ -28,7 +28,7 @@ namespace StudentManager.DataBase.Data
         public Gender Gender { get; set; }
 
         [ForeignKey("TeacherKey")]
-        public List<Teacher> Teachers { get; set; }
+        public List<Teacher>? Teachers { get; set; }
         public int DepartamentId { get; set; }  
         public Departament Departament { get; set; }
 
