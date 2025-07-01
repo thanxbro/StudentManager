@@ -1,0 +1,52 @@
+﻿<Window x:Class="StudentManager.View.StudentWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StudentManager.View"
+        xmlns:utils="clr-namespace:StudentManager.Utils"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
+        xmlns:GenderAlias="clr-namespace:StudentManager.Enums"
+        Title="StudentWindow" Height="650" Width="400">
+    <Window.Resources>
+        <ObjectDataProvider x:Key="dataFromEnum" MethodName="GetValues"
+                            ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="GenderAlias:Gender"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </Window.Resources>
+    <Grid>
+        
+        <StackPanel Margin="10" VerticalAlignment="Top">
+            <TextBox Margin="0 5" Text="Имя" />
+            <TextBox Margin="0 5" Text="{Binding Name}" />
+            <TextBox Margin="0 5"  Text="Фамилия" />
+            <TextBox Margin="0 5"  Text="{Binding LastName}" />
+            <TextBox Margin="0 5" Text="Отчество" />
+            <TextBox Margin="0 5" Text="{Binding Middlename}" />
+            <TextBox Margin="0 5" Text="Пол" />
+
+            <ComboBox Margin="0 5" SelectedItem="{Binding SelectedGender}"  ItemsSource="{Binding Source={StaticResource dataFromEnum}}" />
+
+            <TextBox Margin="0 5" Text="Кафедра" />
+            <ComboBox Margin="0 5"
+              ItemsSource="{Binding Departaments}"
+              DisplayMemberPath="Name"
+              SelectedItem="{Binding SelectedDepartament}" />
+
+            <TextBox Margin="0 5" Text="Преподаватели" />
+            <ListBox x:Name="TeachersListBox" Margin="0 5"
+                 Height="100"
+                 ItemsSource="{Binding Teachers}"
+                 DisplayMemberPath="Name"
+                 SelectionMode="Extended" 
+                 SelectionChanged="TeachersListBox_SelectionChanged"/>
+
+            <Button Margin="0 10" Content="Добавить студента"  Command="{Binding AddCommand}" />
+            <Button Margin="0 10" Content="Обновить студента" Command="{Binding UpdateCommand}" />
+        </StackPanel>
+    </Grid>
+</Window>

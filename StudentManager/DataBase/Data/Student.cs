@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ namespace StudentManager.DataBase.Data
 {
     public class Student
     {
+        [Key]
         public int Id { get; set; }
 
         [Required]
@@ -24,7 +26,10 @@ namespace StudentManager.DataBase.Data
         public string LastName { get; set; }
 
         public Gender Gender { get; set; }
+
+        [ForeignKey("TeacherKey")]
         public List<Teacher> Teachers { get; set; }
+        public int DepartamentId { get; set; }  
         public Departament Departament { get; set; }
 
     }

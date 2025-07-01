@@ -2,6 +2,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using StudentManager.DataBase;
+using StudentManager.DataBase.Data;
+using StudentManager.Services;
 using StudentManager.View;
 using StudentManager.ViewModel;
 using System;
@@ -21,10 +23,16 @@ namespace StudentManager
             //Добавляем сервисы в контейнер
             HostApplicationBuilder builder = Host.CreateApplicationBuilder();
 
+            builder.Services.AddSingleton<IRepository<Student>, StudentRepositoryService>();
+            builder.Services.AddSingleton<IRepository<Departament>, DepartamentRepositoryService>();
+            builder.Services.AddSingleton<IRepository<Teacher>, TeacherRepositorySrvice>();
+
             builder.Services.AddSingleton<MainWindowViewModel>();
 
             builder.Services.AddSingleton<MainWindow>();
             builder.Services.AddDbContext<DataBaseContext>();
+
+            builder.Services.AddTransient<StudentWindow>();
 
             _host = builder.Build();
 
