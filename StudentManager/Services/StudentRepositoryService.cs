@@ -13,7 +13,7 @@ namespace StudentManager.Services
     public class StudentRepositoryService : IRepository<Student>
     {
         private DataBaseContext _db;
-        public StudentRepositoryService(DataBaseContext db) 
+        public StudentRepositoryService(DataBaseContext db)
         {
             _db = db;
         }
@@ -21,24 +21,14 @@ namespace StudentManager.Services
         public async Task<bool> AddAsync(Student student)
         {
 
-            bool exists = CheckUniqFIO(student);
 
-            if (exists)
-            {
+            await _db.AddAsync(student);
+            await _db.SaveChangesAsync();
+            return true;
 
-                MessageBox.Show("Данный пользователь уже существует в базе данных");
-                return false;
-
-            }
-            else
-            {
-                await _db.AddAsync(student);
-                await _db.SaveChangesAsync();
-                return true;
-            }
         }
 
-        public  IEnumerable<Student> GetAll()
+        public IEnumerable<Student> GetAll()
         {
             return _db.Set<Student>().Include(s => s.Departament).Include(s => s.Teachers);
         }
@@ -58,73 +48,32 @@ namespace StudentManager.Services
 
         public async Task<bool> UpdateAsync(Student student)
         {
-            bool exists = CheckUniqFIO(student);
 
-            if (exists)
-            {
+            _db.Update(student);
+            await _db.SaveChangesAsync();
+            return true;
 
-                MessageBox.Show("Данный пользователь уже существует в базе данных");
-                await Task.Delay(300);
-                return false;
 
-            }
-            else
-            {
-                _db.Update(student);
-                await _db.SaveChangesAsync();
-                return true;
-            }
 
-            
         }
 
         public bool Add(Student student)
         {
-            bool exists = CheckUniqFIO(student);
 
-            if (exists)
-            {
-                
-                MessageBox.Show("Данный пользователь уже существует в базе данных");
-                return false;
-                
-            }
-            else
-            {
-                _db.AddAsync(student);
-                _db.SaveChanges();
-                return true;
-            }
-            
+            _db.AddAsync(student);
+            _db.SaveChanges();
+            return true;
+
+
         }
 
         public bool Update(Student student)
         {
-            bool exists = CheckUniqFIO(student);
-
-            if (exists)
-            {
-
-                MessageBox.Show("Данный пользователь уже существует в базе данных");
-                return false;
-
-            }
-            else
-            {
-                _db.Update(student);
-                _db.SaveChanges();
-                return true;
-            }
-            
-        }
-
-        private bool CheckUniqFIO(Student student)
-        {
-            return _db.Students.Any(s =>
-                                                s.Name == student.Name &&
-                                                s.LastName == student.LastName &&
-                                                s.Middlename == student.Middlename);
+            _db.Update(student);
+            _db.SaveChanges();
+            return true;
 
         }
+
     }
 }

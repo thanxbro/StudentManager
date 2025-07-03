@@ -4,6 +4,7 @@ using Microsoft.Extensions.Hosting;
 using StudentManager.DataBase;
 using StudentManager.DataBase.Data;
 using StudentManager.Services;
+using StudentManager.Services.Validation;
 using StudentManager.View;
 using StudentManager.ViewModel;
 using System;
@@ -26,6 +27,7 @@ namespace StudentManager
             builder.Services.AddSingleton<IRepository<Student>, StudentRepositoryService>();
             builder.Services.AddSingleton<IRepository<Departament>, DepartamentRepositoryService>();
             builder.Services.AddSingleton<IRepository<Teacher>, TeacherRepositorySrvice>();
+            builder.Services.AddSingleton<IValidation<Student>, ValidationStudentService>();
 
             builder.Services.AddSingleton<MainWindowViewModel>();
 

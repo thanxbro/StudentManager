@@ -29,7 +29,9 @@ namespace StudentManager.DataBase.Data
 
         [ForeignKey("TeacherKey")]
         public List<Teacher>? Teachers { get; set; }
-        public int DepartamentId { get; set; }  
+        public int DepartamentId { get; set; }
+
+        [Required]
         public Departament Departament { get; set; }
 
     }

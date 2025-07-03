@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using StudentManager.DataBase.Data;
 using StudentManager.Enums;
 using StudentManager.Services;
+using StudentManager.Services.Validation;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,23 +19,23 @@ namespace StudentManager.ViewModel
 {
     public class StudentWindowViewModel : ObservableObject
     {
-        public string Title { get; set; } 
+        public string Title { get; set; }
 
-        private string _name;
+        private string _name = "";
         public string Name
         {
             get => _name;
             set => SetProperty(ref _name, value);
         }
 
-        private string _lastName;
+        private string _lastName = "";
         public string LastName
         {
             get => _lastName;
             set => SetProperty(ref _lastName, value);
         }
 
-        private string _middlename;
+        private string _middlename = "";
         public string Middlename 
         { 
             get => _middlename; 
@@ -72,6 +73,7 @@ namespace StudentManager.ViewModel
         private IRepository<Student> _studentRepository;
         private IRepository<Departament> _departamentRepository;
         private IRepository<Teacher> _teacherRepository;
+        private IValidation<Student> _validationStudentService;
 
         private Student _updateStudent;
 
@@ -83,6 +85,7 @@ namespace StudentManager.ViewModel
             _studentRepository = serviceProvider.GetRequiredService<IRepository<Student>>();
             _departamentRepository = serviceProvider.GetRequiredService<IRepository<Departament>>();
             _teacherRepository = serviceProvider.GetRequiredService<IRepository<Teacher>>();
+            _validationStudentService = serviceProvider.GetRequiredService<IValidation<Student>>();
 
             if (student is not null)
             {
@@ -90,10 +93,10 @@ namespace StudentManager.ViewModel
                 _updateStudent = student;
                 Name = student.Name;
                 LastName = student.LastName;
-                Middlename = student.Middlename;
+                Middlename = student.Middlename ?? "";
                 SelectedGender = student.Gender;
                 SelectedDepartament = student.Departament;
-                SelectedTeachers = new ObservableCollection<Teacher>(student.Teachers);
+                SelectedTeachers = student.Teachers is null ? new ObservableCollection<Teacher>(): new ObservableCollection<Teacher>(student.Teachers);
             }
 
             Departaments = new ObservableCollection<Departament>(_departamentRepository.GetAll());
@@ -106,7 +109,14 @@ namespace StudentManager.ViewModel
 
         private void AddStudent()
         {
-            if (!Validation()) return;
+            var (result, message) = Validation();
+
+            if (!result)
+            {
+                MessageBox.Show(message);
+                return;
+            }
+
             var newStudent = new Student
             {
                 Name = Name,
@@ -126,25 +136,30 @@ namespace StudentManager.ViewModel
             
         }
 
-        private bool Validation()
+        private (bool,string) Validation()
         {
-            if (string.IsNullOrWhiteSpace(Name))
-            {
-                MessageBox.Show("Поле Имя не может быть пустым!");
-                return false;
-            }
-            if (string.IsNullOrWhiteSpace(LastName))
-            {
-                MessageBox.Show("Поле Фамилия не может быть пустым!");
-                return false;
-            }
+             return _validationStudentService.Validate(new Student 
+            { 
+                Name = Name,
+                LastName = LastName,
+                Middlename = Middlename,
+                Gender = SelectedGender,
+                Teachers = Teachers.ToList(),
+                Departament = SelectedDepartament,
 
-            return true;
+            });
+ 
         }
 
         private void UpdateStudent()
         {
-            if (!Validation()) return;
+            var (result, message) = Validation();
+
+            if (!result)
+            {
+                MessageBox.Show(message);
+                return;
+            }
 
             _updateStudent.Name = Name;
             _updateStudent.LastName = LastName;
