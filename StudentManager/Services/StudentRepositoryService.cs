@@ -20,12 +20,8 @@ namespace StudentManager.Services
 
         public async Task<bool> AddAsync(Student student)
         {
-           
 
-            bool exists = _db.Students.Any(s =>
-                                                s.Name == student.Name &&
-                                                s.LastName == student.LastName &&
-                                                s.Middlename == student.Middlename);
+            bool exists = CheckUniqFIO(student);
 
             if (exists)
             {
@@ -62,10 +58,7 @@ namespace StudentManager.Services
 
         public async Task<bool> UpdateAsync(Student student)
         {
-            bool exists = _db.Students.Any(s =>
-                                                s.Name == student.Name &&
-                                                s.LastName == student.LastName &&
-                                                s.Middlename == student.Middlename);
+            bool exists = CheckUniqFIO(student);
 
             if (exists)
             {
@@ -87,10 +80,7 @@ namespace StudentManager.Services
 
         public bool Add(Student student)
         {
-            bool exists = _db.Students.Any(s =>
-                                                s.Name == student.Name &&
-                                                s.LastName == student.LastName &&
-                                                s.Middlename == student.Middlename);
+            bool exists = CheckUniqFIO(student);
 
             if (exists)
             {
@@ -110,10 +100,7 @@ namespace StudentManager.Services
 
         public bool Update(Student student)
         {
-            bool exists = _db.Students.Any(s =>
-                                                s.Name == student.Name &&
-                                                s.LastName == student.LastName &&
-                                                s.Middlename == student.Middlename);
+            bool exists = CheckUniqFIO(student);
 
             if (exists)
             {
@@ -129,6 +116,15 @@ namespace StudentManager.Services
                 return true;
             }
             
+        }
+
+        private bool CheckUniqFIO(Student student)
+        {
+            return _db.Students.Any(s =>
+                                                s.Name == student.Name &&
+                                                s.LastName == student.LastName &&
+                                                s.Middlename == student.Middlename);
+
         }
     }
 }
